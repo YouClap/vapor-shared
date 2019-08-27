@@ -46,6 +46,6 @@ extension CRUDStore {
     }
 }
 
-enum CRUDStoreError: Swift.Error {
+public enum CRUDStoreError: Swift.Error {
     case notFound
 }
