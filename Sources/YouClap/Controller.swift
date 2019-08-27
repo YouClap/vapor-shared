@@ -1,3 +1,3 @@
 import Vapor
 
-protocol RouterController: RouteCollection {}
+public protocol RouterController: RouteCollection {}

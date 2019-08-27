@@ -1,6 +1,6 @@
 import Vapor
 
-protocol CRUDStore {
+public protocol CRUDStore {
     associatedtype M: CRUDModel
     associatedtype DatabaseConnection: MySQLDatabaseConnectable
 

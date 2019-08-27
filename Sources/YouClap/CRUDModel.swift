@@ -1,5 +1,5 @@
 import Fluent
 
-protocol CRUDModel: Model {
+public protocol CRUDModel: Model {
     var deleted: Bool { get set }
 }
