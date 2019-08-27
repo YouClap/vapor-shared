@@ -13,11 +13,11 @@ public protocol CRUDStore {
 }
 
 extension CRUDStore {
-    func create(model: M) -> Future<M> {
+    public func create(model: M) -> Future<M> {
         return databaseConnectable.connection { model.save(on: $0) }
     }
 
-    func read(by id: M.ID) -> Future<M> {
+    public func read(by id: M.ID) -> Future<M> {
         return databaseConnectable.connection {
             M.find(id, on: $0)
                 .map {
@@ -28,11 +28,11 @@ extension CRUDStore {
         }
     }
 
-    func update(model: M) -> Future<M> {
+    public func update(model: M) -> Future<M> {
         return databaseConnectable.connection { model.update(on: $0) }
     }
 
-    func delete(by id: M.ID) -> Future<M> {
+    public func delete(by id: M.ID) -> Future<M> {
         return databaseConnectable.connection {
             M.find(id, on: $0)
                 .flatMap {
