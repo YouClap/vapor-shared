@@ -1,6 +1,9 @@
 import Vapor
 
 public final class HealthCheckController: RouterController {
+
+    public init() {}
+
     public func boot(router: Router) throws {
         router.get("healthcheck", use: healthcheck)
     }
