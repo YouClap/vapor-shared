@@ -22,58 +22,70 @@ public extension Environment {
     var shortfilename: String { return ".\(shortname).env" }
 
     func loadFile() {
-        // If exists file with default values, load it
-        Environment.dotenv()
+        ((Environment.loadFile(".env")
+            .flatMap {
+                base in Environment.loadFile(shortfilename).flatMap { base + $0 }
 
-        // Load file for environment
-        Environment.dotenv(filename: shortfilename)
+            }) ?? Environment.loadFile(shortfilename))
+            .flatMap { Environment.parse(fileContent: $0) }
+            .flatMap { $0.forEach { (key, value) in setenv(key, value, 0) } }
     }
 
     /// Loads environment variables from .env files.
     ///
     /// - Parameter filename: name of your env file.
     static func dotenv(filename: String = ".env") {
+        loadFile(filename)
+            .flatMap { parse(fileContent: $0) }
+            .flatMap { $0.forEach { (key, value) in setenv(key, value, 0) } }
+    }
+
+    private static func loadFile(_ filename: String) -> String? {
         guard
             let path = getAbsolutePath(for: filename),
             let contents = try? String(contentsOfFile: path, encoding: .utf8) else {
-                return
+                return nil
         }
 
-        let lines = contents.split(whereSeparator: { $0 == "\n" || $0 == "\r\n" })
+        return contents
+    }
 
-        for line in lines {
-            // ignore comments
-            if line.starts(with: "#") {
-                continue
+    private static func parse(fileContent: String) -> [String : String] {
+        let contentArray: [(String, String)] = fileContent.split(whereSeparator: { $0 == "\n" || $0 == "\r\n" })
+            .compactMap { line in
+                if line.starts(with: "#") {
+                    return nil
+                }
+
+                // ignore lines that appear empty
+                if line.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    return nil
+                }
+
+                // extract key and value which are separated by an equals sign
+                let parts = line.components(separatedBy: "=")
+
+                let key = parts[0].trimmingCharacters(in: .whitespacesAndNewlines)
+                var value = parts[1].trimmingCharacters(in: .whitespacesAndNewlines)
+
+                // remove surrounding quotes from value & convert remove escape character before any embedded quotes
+                if value[value.startIndex] == "\"" && value[value.index(before: value.endIndex)] == "\"" {
+                    value.remove(at: value.startIndex)
+                    value.remove(at: value.index(before: value.endIndex))
+                    value = value.replacingOccurrences(of: "\\\"", with: "\"")
+                }
+
+                // remove surrounding single quotes from value & convert remove escape character before any embedded quotes
+                if value[value.startIndex] == "'" && value[value.index(before: value.endIndex)] == "'" {
+                    value.remove(at: value.startIndex)
+                    value.remove(at: value.index(before: value.endIndex))
+                    value = value.replacingOccurrences(of: "'", with: "'")
+                }
+
+                return (key, value)
             }
 
-            // ignore lines that appear empty
-            if line.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                continue
-            }
-
-            // extract key and value which are separated by an equals sign
-            let parts = line.components(separatedBy: "=")
-
-            let key = parts[0].trimmingCharacters(in: .whitespacesAndNewlines)
-            var value = parts[1].trimmingCharacters(in: .whitespacesAndNewlines)
-
-            // remove surrounding quotes from value & convert remove escape character before any embedded quotes
-            if value[value.startIndex] == "\"" && value[value.index(before: value.endIndex)] == "\"" {
-                value.remove(at: value.startIndex)
-                value.remove(at: value.index(before: value.endIndex))
-                value = value.replacingOccurrences(of: "\\\"", with: "\"")
-            }
-
-            // remove surrounding single quotes from value & convert remove escape character before any embedded quotes
-            if value[value.startIndex] == "'" && value[value.index(before: value.endIndex)] == "'" {
-                value.remove(at: value.startIndex)
-                value.remove(at: value.index(before: value.endIndex))
-                value = value.replacingOccurrences(of: "'", with: "'")
-            }
-
-            setenv(key, value, 1)
-        }
+        return .init(contentArray, uniquingKeysWith: { _, last in last })
     }
 
     /// Determine absolute path of the given argument relative to the current directory.
