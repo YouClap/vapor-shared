@@ -19,7 +19,7 @@ public extension Environment {
         }
     }
 
-    var shortfilename: String { return "\(shortname).env" }
+    var shortfilename: String { return ".\(shortname).env" }
 
     func loadFile() {
         // If exists file with default values, load it
