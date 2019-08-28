@@ -12,3 +12,4 @@ public final class HealthCheckController: RouterController {
         return request.future(.noContent)
     }
 }
+ 

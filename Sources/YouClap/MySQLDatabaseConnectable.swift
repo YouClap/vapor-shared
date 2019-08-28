@@ -1,5 +1,5 @@
-import FluentMySQL
-import Vapor
+import MySQL
+import Service
 
 public final class MySQLDatabaseConnectable: ContainerAlias {
     public static var aliasedContainer: KeyPath<MySQLDatabaseConnectable, Container> = \.container

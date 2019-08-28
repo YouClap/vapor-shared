@@ -7,7 +7,7 @@
 //  Copyright © 2018 Vapor Community. All rights reserved.
 //
 
-import Vapor
+import Service
 
 public extension Environment {
     var shortname: String {

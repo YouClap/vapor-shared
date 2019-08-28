@@ -1,4 +1,4 @@
-import Vapor
+import Core
 
 public protocol CRUDStore {
     associatedtype M: CRUDModel
