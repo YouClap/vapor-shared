@@ -10,7 +10,7 @@ let package = Package(
         .library(name: "YouClap", targets: ["YouClap"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", from: "3.3.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "3.3.1"),
         .package(url: "https://github.com/vapor/fluent-mysql.git", from: "3.0.1"),
     ],
     targets: [
