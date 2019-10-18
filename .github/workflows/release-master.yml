@@ -1,0 +1,27 @@
+name: Swift
+
+on:
+  push:
+    branches: 
+      - master
+  
+jobs:
+  build:
+
+    runs-on: macOS-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build
+        run: swift build -c release -v
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
