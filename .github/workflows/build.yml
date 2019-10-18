@@ -1,0 +1,12 @@
+name: build
+on:
+- pull_request
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: docker://swift/swift:5.1-slim
+      with:
+        entrypoint: swift
+        args: build -c release
