@@ -5,7 +5,7 @@ public enum Firebase {
     private static let identifierAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
     private static var randomGenerator = SystemRandomNumberGenerator()
 
-    public var autoIdentifier: String {
+    public static var autoIdentifier: String {
         return String((0..<Self.identifierLength).compactMap { _ -> Character? in
             return Self.identifierAlphabet.randomElement(using: &Self.randomGenerator)
         })
