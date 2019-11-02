@@ -1,19 +1,19 @@
 import Foundation
 
-struct AmericaMessage: Encodable {
-    let action: Action
-    let collection: Collection
-    let documentID: String
-    let data: Data
+public struct AmericaMessage: Encodable {
+    public let action: Action
+    public let collection: Collection
+    public let documentID: String
+    public let data: Data
 
-    init(action: Action, collection: Collection, documentID: String) {
+    public init(action: Action, collection: Collection, documentID: String) {
         self.action = action
         self.collection = collection
         self.documentID = documentID
         self.data = .none
     }
 
-    init(action: Action, collection: Collection, documentID: String, model: Encodable) {
+    public init(action: Action, collection: Collection, documentID: String, model: Encodable) {
         self.action = action
         self.collection = collection
         self.documentID = documentID
@@ -22,14 +22,14 @@ struct AmericaMessage: Encodable {
 }
 
 extension AmericaMessage {
-    enum Action: String, Encodable {
+    public enum Action: String, Encodable {
         case create = "CREATE"
         case update = "UPDATE"
         case markDeleted = "MARK_DELETED"
         case delete = "DELETE"
     }
 
-    enum Collection: String, Encodable {
+    public enum Collection: String, Encodable {
         case blockedUser = "blocked-user"
         case challenge
         case following
@@ -38,14 +38,14 @@ extension AmericaMessage {
         case user
     }
 
-    enum Data {
+    public enum Data {
         case model(Encodable)
         case none
     }
 }
 
 extension AmericaMessage.Data: Encodable {
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         switch self {
         case .model(let model): try model.encode(to: encoder)
         case .none: break
