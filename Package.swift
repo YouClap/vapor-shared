@@ -12,8 +12,9 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "3.3.1"),
         .package(url: "https://github.com/vapor/fluent-mysql.git", from: "3.0.1"),
+        .package(url: "https://github.com/YouClap/GoogleCloudPubSubKit.git", from: "0.1.0")
     ],
     targets: [
-        .target(name: "YouClap", dependencies: ["Vapor", "FluentMySQL"]),
+        .target(name: "YouClap", dependencies: ["Vapor", "FluentMySQL", "GoogleCloudPubSubKit"]),
     ]
 )
