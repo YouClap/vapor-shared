@@ -36,6 +36,7 @@ extension AmericaMessage {
         case group
         case post
         case user
+        case userUsername
     }
 
     public enum Data {
