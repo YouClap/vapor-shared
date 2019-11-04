@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/YouClap/GoogleCloudPubSubKit.git",
         "state": {
           "branch": null,
-          "revision": "ddb7f33a33778e1abb343b75cde9505dfe6ba9b7",
-          "version": "0.1.0"
+          "revision": "246d22dd3cac160def813f66955cd7a64d2f6fc7",
+          "version": "0.2.1"
         }
       },
       {
