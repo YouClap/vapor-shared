@@ -20,8 +20,7 @@ public final class ElasticSearchConnectable {
             var request = HTTPRequest(method: .POST, url: path, body: data)
             request.contentType = .json
 
-            return client()
-                .flatMap { $0.send(request) }
+            return client().flatMap { $0.send(request) }
         } catch {
             return container.future(error: error)
         }
@@ -37,11 +36,16 @@ public final class ElasticSearchConnectable {
             var request = HTTPRequest(method: .PUT, url: path, body: data)
             request.contentType = .json
 
-            return client()
-                .flatMap { $0.send(request) }
+            return client().flatMap { $0.send(request) }
         } catch {
             return container.future(error: error)
         }
+    }
+
+    public func delete(_ path: String) -> Future<HTTPResponse> {
+        let request = HTTPRequest(method: .DELETE, url: path)
+
+        return client().flatMap { $0.send(request) }
     }
 
     // MARK: - Private Methods
