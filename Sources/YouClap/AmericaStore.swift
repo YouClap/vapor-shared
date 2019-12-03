@@ -13,5 +13,3 @@ extension Store: AmericaStore {
         return messageQueueClient.publish(messages: messages, to: topic)
     }
 }
-
-
